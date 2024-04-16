@@ -6,7 +6,6 @@
         <capability name="Map view configurations" minToolsVersion="14.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
-        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -37,6 +36,9 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VwF-OF-9kf">
                                 <rect key="frame" x="0.0" y="103" width="393" height="715"/>
                                 <standardMapConfiguration key="preferredConfiguration"/>
+                                <connections>
+                                    <outlet property="delegate" destination="2Ed-lW-Dt2" id="TcX-kn-d6F"/>
+                                </connections>
                             </mapView>
                             <toolbar hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PUP-D5-PWf">
                                 <rect key="frame" x="0.0" y="769" width="393" height="49"/>
@@ -107,7 +109,7 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="qAx-sn-WB7">
                                 <rect key="frame" x="0.0" y="232" width="393" height="610"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ema-9P-jET">
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ema-9P-jET">
                                     <size key="itemSize" width="128" height="128"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -122,23 +124,28 @@
                                 </label>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PhotoCollectionViewCell" id="MhI-hG-D0P" customClass="PhotoCollectionViewCell" customModule="vitural_tourist" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="127.99999999999997" height="128"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="7lz-14-xNh">
-                                            <rect key="frame" x="0.0" y="0.0" width="127.99999999999997" height="128"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bcL-3V-2uZ">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imagePlaceHolder" translatesAutoresizingMaskIntoConstraints="NO" id="bcL-3V-2uZ">
                                                     <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="128" id="30z-FQ-bX9"/>
+                                                        <constraint firstAttribute="width" constant="128" id="zZU-PP-Gur"/>
+                                                    </constraints>
                                                 </imageView>
                                             </subviews>
-                                            <constraints>
-                                                <constraint firstItem="bcL-3V-2uZ" firstAttribute="top" secondItem="7lz-14-xNh" secondAttribute="top" id="5gA-Ub-b8F"/>
-                                                <constraint firstItem="bcL-3V-2uZ" firstAttribute="leading" secondItem="7lz-14-xNh" secondAttribute="leading" id="K3s-Fq-rW6"/>
-                                                <constraint firstAttribute="bottom" secondItem="bcL-3V-2uZ" secondAttribute="bottom" id="Khy-U7-x3O"/>
-                                                <constraint firstAttribute="trailing" secondItem="bcL-3V-2uZ" secondAttribute="trailing" id="WmO-Wm-rm3"/>
-                                            </constraints>
-                                        </collectionViewCellContentView>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="bcL-3V-2uZ" secondAttribute="trailing" id="8Ho-oT-hWT"/>
+                                            <constraint firstItem="bcL-3V-2uZ" firstAttribute="top" secondItem="MhI-hG-D0P" secondAttribute="top" id="LTx-KV-D8J"/>
+                                            <constraint firstItem="bcL-3V-2uZ" firstAttribute="leading" secondItem="MhI-hG-D0P" secondAttribute="leading" id="YTz-2D-xgW"/>
+                                            <constraint firstAttribute="bottom" secondItem="bcL-3V-2uZ" secondAttribute="bottom" id="cve-uo-ywb"/>
+                                        </constraints>
+                                        <size key="customSize" width="128" height="128"/>
                                         <connections>
                                             <outlet property="imgView" destination="bcL-3V-2uZ" id="t5B-Rg-wNZ"/>
                                         </connections>
@@ -192,6 +199,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="imagePlaceHolder" width="33.333332061767578" height="33.333332061767578"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

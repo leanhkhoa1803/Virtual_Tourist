@@ -28,7 +28,6 @@ class MapController: UIViewController, MKMapViewDelegate {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         dataController = appDelegate.dataController
         
-        mapView.delegate = self
         let gestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleTap))
         mapView.addGestureRecognizer(gestureRecognizer)
         
@@ -40,6 +39,13 @@ class MapController: UIViewController, MKMapViewDelegate {
                 mapView.addAnnotation(annotation)
             }
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        showActivityIndicator()
+        mapView.deselectAnnotation(annotations as? MKAnnotation, animated: false)
+        hideActivityIndicator()
     }
     
     @IBAction func handleEdit(_ sender: Any) {
@@ -62,7 +68,6 @@ class MapController: UIViewController, MKMapViewDelegate {
             pin.longitude = coordinate.longitude
             let annotation = MKPointAnnotation()
             annotation.coordinate = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
-            print(annotation.coordinate)
             mapView.addAnnotation(annotation)
             do {
                 try dataController.viewContext.save()

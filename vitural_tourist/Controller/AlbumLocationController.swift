@@ -135,12 +135,16 @@ class AlbumLocationController : UIViewController, MKMapViewDelegate, UICollectio
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         self.reloadButton.isEnabled = false
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCollectionViewCell", for: indexPath) as! PhotoCollectionViewCell
+        cell.imgView.image = UIImage(named: "imagePlaceHolder")
         let cellImage = corePhotos[indexPath.row]
         
         if cellImage.image != nil {
-            cell.imgView.image = UIImage(data: cellImage.image!)
-            self.reloadButton.isEnabled = true
+            DispatchQueue.main.async{
+                cell.imgView.image = UIImage(data: cellImage.image!)
+                self.reloadButton.isEnabled = true
+            }
         } else {
+            
             if cellImage.imageUrl != nil {
                 let url = URL(string: cellImage.imageUrl ?? "")
                 FlickrService.downloadPhoto(url: url!) { (data, error) in
@@ -199,6 +203,19 @@ class AlbumLocationController : UIViewController, MKMapViewDelegate, UICollectio
         let totalSpace = flowLayout.sectionInset.left + flowLayout.sectionInset.right + (flowLayout.minimumInteritemSpacing * CGFloat(cellsPerRow - 1))
         let size = Int((photoCollection.bounds.width - totalSpace) / CGFloat(cellsPerRow))
         return CGSize(width: size, height: size)
+    }
+    
+    override func viewWillLayoutSubviews() {
+        guard let flowLayout = photoCollection.collectionViewLayout as? UICollectionViewFlowLayout else {
+            return
+        }
+        if UIDevice.current.orientation == .portrait {
+            cellsPerRow = 3
+        } else {
+            cellsPerRow = 5
+        }
+        
+        flowLayout.invalidateLayout()
     }
     
     func getPhotos() {
